@@ -2,7 +2,7 @@ name: Deployment Exercise 2
 on: push
 jobs:
   lint:
-    run-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps: 
       - name: Get code
         uses: actions/checkout@v3
@@ -11,8 +11,9 @@ jobs:
       - name: Lint
         run: npm run lint
   test:
-    run-on: ubuntu-latest
-    steps:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps: 
       - name: Get code
         uses: actions/checkout@v3
       - name: Install dependencies
@@ -20,7 +21,8 @@ jobs:
       - name: Test code
         run: npm run test
   deploy:
-    run-on: ubuntu-latest
+    needs: test
+    runs-on: ubuntu-latest
     steps:
       - name: Get code
         uses: actions/checkout@v3
